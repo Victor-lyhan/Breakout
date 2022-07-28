@@ -9,15 +9,18 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
-var ball = SKShapeNode()
+    var ball = SKShapeNode()
+    var paddle = SKSpriteNode()
+    
     override func didMove(to view: SKView) {
         createBackground()
-        makeBall()
+        resetGame()
     }
-   
+    
     func resetGame() {
         //this stuff happensbefore each game starts
         makeBall()
+        makePaddle()
     }
     
     func createBackground() {
@@ -33,9 +36,10 @@ var ball = SKShapeNode()
             let moveForever = SKAction.repeatForever(moveLoop)
             starsBackground.run(moveForever)
         }
-        }
+    }
+    
     func makeBall(){
-        ball.removeFromParent()
+        ball.removeFromParent() //remove the ball if exists
         ball = SKShapeNode(circleOfRadius: 10)
         ball.position = CGPoint(x: frame.midX, y: frame.midY)
         ball.strokeColor = .black
@@ -59,6 +63,16 @@ var ball = SKShapeNode()
         ball.physicsBody?.contactTestBitMask = (ball.physicsBody?.collisionBitMask)!
         
         addChild(ball) //add ball object to the view
+    }
+    
+    func makePaddle(){
+        paddle.removeFromParent() //remove the paddle if it exists
+        paddle = SKSpriteNode(color:.white, size: CGSize(width: frame.width/4, height: 20))
+        paddle.position = CGPoint(x:frame.midX, y: frame.minY + 125)
+        paddle.name = "paddle"
+        paddle.physicsBody = SKPhysicsBody(rectangleOf: paddle.size)
+        paddle.physicsBody?.isDynamic = false
+        addChild(paddle)
     }
 }
 
