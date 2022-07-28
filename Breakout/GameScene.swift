@@ -239,6 +239,18 @@ func makeLabels(){
     scoreLabel.position = CGPoint(x: frame.maxX - 50, y: frame.minY + 18)
     addChild(scoreLabel)
 }
+    
+    override func update(_ currentTime: TimeInterval) {
+        if abs(ball.physicsBody!.velocity.dx) < 100 {
+            //ball has stalled in x direction, so kick it randomly horizontally
+            ball.physicsBody?.applyImpulse(CGVector(dx: Int.random(in: -3...3), dy: 0))
+        }
+        if abs(ball.physicsBody!.velocity.dy) < 100 {
+            //ball has stalled in y direction, so kick it randomly vertically
+            ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: Int.random(in: -3...3)))
+        }
+    }
+    
 }
 
 
