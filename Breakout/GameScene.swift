@@ -77,17 +77,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func gameOver(winner: Bool){
+        playingGame = false
+        playLabel.alpha = 1
+        resetGame()
+        if winner {
+            playLabel.text = "You win! Tap to play again"
+        }
+        else{
+            playLabel.text = "You lose! Tap to play again"
+        }
+    }
+    
     func didBegin(_ contact: SKPhysicsContact) {
         if contact.bodyA.node?.name == "brick" ||
             contact.bodyB.node?.name == "brick" {
-            print ("You win!")
-            brick.removeFromParent()
-            ball.removeFromParent()
+            gameOver(winner: true)
         }
         if contact.bodyA.node?.name == "loseZone" ||
             contact.bodyB.node?.name ==  "loseZone" {
-            print ("You lose!")
-            brick.removeFromParent()
+            gameOver(winner: false)
         }
     }
     
